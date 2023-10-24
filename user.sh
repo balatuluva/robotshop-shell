@@ -27,7 +27,7 @@ cp /home/centos/robotshop-shell/user.service /etc/systemd/system/user.service
 echo -e "\e[36m>>>>>> Start user service <<<<<<\e[0m"
 systemctl daemon-reload
 systemctl enable user
-systemctl start user
+systemctl restart user
 
 echo -e "\e[36m>>>>>> Copy mongo service files <<<<<<\e[0m"
 cp /home/centos/robotshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo

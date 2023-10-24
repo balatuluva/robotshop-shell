@@ -27,7 +27,7 @@ cp /home/centos/robotshop-shell/catalogue.service /etc/systemd/system/catalogue.
 echo -e "\e[36m>>>>>> Start Catalogue Service <<<<<<\e[0m"
 systemctl daemon-reload
 systemctl enable catalogue
-systemctl start catalogue
+systemctl restart catalogue
 
 echo -e "\e[36m>>>>>> Copy Mongodb repo <<<<<<\e[0m"
 cp /home/centos/robotshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
