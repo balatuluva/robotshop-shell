@@ -1,4 +1,5 @@
-source common.sh
+script_path=$(dirname $0)
+source ${script_path}/common.sh
 
 echo -e "\e[36m>>>>>> Install maven <<<<<<\e[0m"
 yum install maven -y
@@ -24,7 +25,7 @@ echo -e "\e[36m>>>>>> Download shipping service <<<<<<\e[0m"
 mv target/shipping-1.0.jar shipping.jar
 
 echo -e "\e[36m>>>>>> copy shipping service <<<<<<\e[0m"
-cp /home/centos/robotshop-shell/shipping.service /etc/systemd/system/shipping.service
+cp ${script_path}/shipping.service /etc/systemd/system/shipping.service
 
 echo -e "\e[36m>>>>>> Install Mysql <<<<<<\e[0m"
 yum install mysql -y
