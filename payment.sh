@@ -23,6 +23,7 @@ echo -e "\e[36m>>>>>> Install dependencies <<<<<<\e[0m"
 pip3.6 install -r requirements.txt
 
 echo -e "\e[36m>>>>>> Copy payment service files <<<<<<\e[0m"
+sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}" ${script_path}/payment.service
 cp ${script_path}/payment.service /etc/systemd/system/payment.service
 
 echo -e "\e[36m>>>>>> Restart payment service <<<<<<\e[0m"
