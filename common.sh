@@ -6,6 +6,17 @@ print_head () {
   echo -e "\e[36m>>>>>> $1 <<<<<<\e[0m"
 }
 
+schema_setup() {
+  print_head "Copy Mongodb repo"
+  cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo
+
+  print_head "Install Mongodb Client"
+  yum install mongodb-org-shell -y
+
+  print_head "Load Schema"
+  mongo --host mongodb-dev.gehana26.online </app/schema/{component}.js
+}
+
 func_nodejs() {
   print_head "Download Nodejs"
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash
@@ -36,4 +47,7 @@ func_nodejs() {
   systemctl daemon-reload
   systemctl enable ${component}
   systemctl restart ${component}
+
+  print_head "Schema setup function"
+  schema_setup
 }
