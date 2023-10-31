@@ -8,19 +8,19 @@ if [ -z "$rabbitmq_appuser_password" ]; then
   exit
 fi
 
-echo -e "\e[36m>>>>>> Download erlang repos <<<<<<\e[0m"
+func_print_head "Download erlang repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
 
-echo -e "\e[36m>>>>>> Download Rabbitmq repos <<<<<<\e[0m"
+func_print_head "Download Rabbitmq repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
 
-echo -e "\e[36m>>>>>> Install Rabbitmq & erlang <<<<<<\e[0m"
+func_print_head "Install Rabbitmq & erlang"
 yum install rabbitmq-server erlang -y
 
-echo -e "\e[36m>>>>>> Start rabbitmq service <<<<<<\e[0m"
+func_print_head "Start rabbitmq service"
 systemctl enable rabbitmq-server
 systemctl restart rabbitmq-server
 
-echo -e "\e[36m>>>>>> Add roboshop user <<<<<<\e[0m"
+func_print_head "Add roboshop user"
 rabbitmqctl add_user roboshop ${rabbitmq_appuser_password}
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"

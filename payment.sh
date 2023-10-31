@@ -8,31 +8,31 @@ if [ -z "$rabbitmq_appuser_password" ]; then
   exit
 fi
 
-echo -e "\e[36m>>>>>> Intsall python repos <<<<<<\e[0m"
+func_print_head "Install python repos"
 yum install python36 gcc python3-devel -y
 
-echo -e "\e[36m>>>>>> Add roboshop user <<<<<<\e[0m"
+func_print_head "Add roboshop user"
 useradd ${app_user}
 
-echo -e "\e[36m>>>>>> Add app directory <<<<<<\e[0m"
+func_print_head "Add app directory"
 rm -rf /app
 mkdir /app
 
-echo -e "\e[36m>>>>>> Download payment content <<<<<<\e[0m"
+func_print_head "Download payment content"
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment.zip
 cd /app
 
-echo -e "\e[36m>>>>>> Unzip payment content <<<<<<\e[0m"
+func_print_head "Unzip payment content"
 unzip /tmp/payment.zip
 
-echo -e "\e[36m>>>>>> Install dependencies <<<<<<\e[0m"
+func_print_head "Install dependencies"
 pip3.6 install -r requirements.txt
 
-echo -e "\e[36m>>>>>> Copy payment service files <<<<<<\e[0m"
+func_print_head "Copy payment service files"
 sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}" ${script_path}/payment.service
 cp ${script_path}/payment.service /etc/systemd/system/payment.service
 
-echo -e "\e[36m>>>>>> Restart payment service <<<<<<\e[0m"
+func_print_head "Restart payment service"
 systemctl daemon-reload
 systemctl enable payment
 systemctl restart payment

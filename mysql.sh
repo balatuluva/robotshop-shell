@@ -8,18 +8,18 @@ if [ -z "$mysql_root_password" ]; then
   exit
 fi
 
-echo -e "\e[36m>>>>>> Disable default Mysql version <<<<<<\e[0m"
+func_print_head "Disable default Mysql version"
 dnf module disable mysql -y
 
-echo -e "\e[36m>>>>>> Load Schema <<<<<<\e[0m"
+func_print_head "Load Schema"
 cp ${script_path}/mysql.repo /etc/yum.repos.d/mysql.repo
 
-echo -e "\e[36m>>>>>> Install Mysql <<<<<<\e[0m"
+func_print_head "Install Mysql"
 yum install mysql-community-server -y
 
-echo -e "\e[36m>>>>>> start mysql <<<<<<\e[0m"
+func_print_head "start mysql"
 systemctl enable mysqld
 systemctl restart mysqld
 
-echo -e "\e[36m>>>>>> Set Mysql password <<<<<<\e[0m"
+func_print_head "Set Mysql password"
 mysql_secure_installation --set-root-pass $mysql_root_password
