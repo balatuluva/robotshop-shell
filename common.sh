@@ -2,6 +2,7 @@ app_user=roboshop
 script=$(realpath "$0")
 script_path=$(dirname "$script")
 log_file=/tmp/roboshop.log
+rm -f /tmp/roboshop.log
 
 func_print_head() {
   echo -e "\e[36m>>>>>> $1 <<<<<<\e[0m"
