@@ -16,5 +16,5 @@ func_status_check $?
 
 func_print_head "Start mongo service"
 systemctl enable mongod &>>$log_file
-systemctl retart mongod &>>$log_file
+systemctl restart mongod &>>$log_file
 func_status_check $?
