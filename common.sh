@@ -34,11 +34,11 @@ func_app_prereq() {
 
   func_print_head "Download App content"
   curl -L -o /tmp/{component}.zip https://roboshop-artifacts.s3.amazonaws.com/{component}.zip &>>$log_file
-  cd /app
   func_status_check $?
 
   func_print_head "Unzip App content"
-  unzip /tmp/{component}.zip &>>$log_file
+  cd /app
+  unzip /tmp/${component}.zip &>>$log_file
   func_status_check $?
 }
 
