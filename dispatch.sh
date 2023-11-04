@@ -6,6 +6,7 @@ func_print_head "Install golang repos"
 yum install golang -y &>>$log_file
 func_status_check $?
 
+component=dispatch
 func_app_prereq
 
 func_print_head "Install app dependencies"
