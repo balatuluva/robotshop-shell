@@ -68,7 +68,7 @@ func_app_prereq() {
 }
 
 func_systemd_setup() {
-  func_print_head "copy {component} service"
+  func_print_head "copy ${component} service"
   cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$log_file
   func_status_check $?
 
