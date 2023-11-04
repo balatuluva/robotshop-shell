@@ -19,6 +19,31 @@ func_status_check() {
   fi
 }
 
+func_schema_setup() {
+  if [ "$schema_setup" == "mongo" ]; then
+    func_print_head "Copy Mongodb repo"
+    cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
+    func_status_check $?
+
+    func_print_head "Install Mongodb Client"
+    yum install mongodb-org-shell -y &>>$log_file
+    func_status_check $?
+
+    func_print_head "Load Schema"
+    mongo --host mongodb-dev.gehana26.online </app/schema/${component}.js &>>$log_file
+    func_status_check $?
+  fi
+  if [ "$schema_setup" == "mysql" ]; then
+    func_print_head "Install Mysql"
+    yum install mysql -y &>>$log_file
+    func_status_check $?
+
+    func_print_head "Load Schema"
+    mysql -h mysql-dev.gehana26.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>$log_file
+    func_status_check $?
+  fi
+}
+
 func_app_prereq() {
   func_print_head "Add App user"
   id ${app_user} &>>$log_file
@@ -54,30 +79,7 @@ func_systemd_setup() {
   func_status_check $?
 }
 
-func_schema_setup() {
-  if [ "$schema_setup" == "mongo" ]; then
-    func_print_head "Copy Mongodb repo"
-    cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
-    func_status_check $?
 
-    func_print_head "Install Mongodb Client"
-    yum install mongodb-org-shell -y &>>$log_file
-    func_status_check $?
-
-    func_print_head "Load Schema"
-    mongo --host mongodb-dev.gehana26.online </app/schema/${component}.js &>>$log_file
-    func_status_check $?
-  fi
-  if [ "$schema_setup" == "mysql" ]; then
-    func_print_head "Install Mysql"
-    yum install mysql -y &>>$log_file
-    func_status_check $?
-
-    func_print_head "Load Schema"
-    mysql -h mysql-dev.gehana26.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>$log_file
-    func_status_check $?
-  fi
-}
 
 func_nodejs() {
   func_print_head "Download Nodejs"
@@ -109,7 +111,7 @@ func_java() {
   func_print_head "Download {component} service"
   mvn clean package &>>$log_file
   func_status_check $?
-  mv target/{component}-1.0.jar {component}.jar &>>$log_file
+  mv target/${component}-1.0.jar ${component}.jar &>>$log_file
 
   func_schema_setup
 
@@ -128,7 +130,7 @@ func_python() {
   func_status_check $?
 
   func_print_head "Copy payment service files"
-  sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}" ${script_path}/{component}.service &>>$log_file
+  sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}" ${script_path}/${component}.service &>>$log_file
   func_status_check $?
 
   func_systemd_setup
