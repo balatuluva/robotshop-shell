@@ -72,7 +72,7 @@ func_systemd_setup() {
   cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$log_file
   func_status_check $?
 
-  func_print_head "Start {component} service"
+  func_print_head "Start ${component} service"
   systemctl daemon-reload &>>$log_file
   systemctl enable ${component} &>>$log_file
   systemctl restart ${component} &>>$log_file
@@ -108,7 +108,7 @@ func_java() {
 
   func_app_prereq
 
-  func_print_head "Download {component} service"
+  func_print_head "Download ${component} service"
   mvn clean package &>>$log_file
   func_status_check $?
   mv target/${component}-1.0.jar ${component}.jar &>>$log_file
