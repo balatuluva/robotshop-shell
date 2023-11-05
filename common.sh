@@ -39,7 +39,7 @@ func_schema_setup() {
     func_status_check $?
 
     func_print_head "Load Schema"
-    mysql -h mysql-dev.rdevopsb72.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>$log_file
+    mysql -h mysql-dev.gehana26.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>$log_file
     func_status_check $?
   fi
 }
