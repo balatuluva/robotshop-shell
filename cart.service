@@ -2,8 +2,8 @@
 Description = Cart Service
 [Service]
 User=roboshop
-Environment=REDIS_HOST=redis-dev.gehana26.online
-Environment=CATALOGUE_HOST=catalogue-dev.gehana26.online
+Environment=REDIS_HOST=redis-dev.gehana26.fun
+Environment=CATALOGUE_HOST=catalogue-dev.gehana26.fun
 Environment=CATALOGUE_PORT=8080
 ExecStart=/bin/node /app/server.js
 SyslogIdentifier=cart
